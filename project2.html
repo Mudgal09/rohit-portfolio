@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYSW-Camp — Project Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06070d;--surface:#0c0e1a;--card:#111428;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--text:#e8ecf4;--muted:#8892a4;--sky:#38bdf8;--violet:#a78bfa;--pink:#f472b6;--emerald:#34d399;--amber:#fbbf24;--coral:#fb7185;--white:#f8fafc;--mono:'JetBrains Mono',monospace;--body:'Plus Jakarta Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb1{width:600px;height:600px;top:0;right:-100px;background:radial-gradient(circle,rgba(52,211,153,.1),transparent 70%)}
+.orb2{width:500px;height:500px;bottom:100px;left:-100px;background:radial-gradient(circle,rgba(56,189,248,.08),transparent 70%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 2.5rem;background:rgba(6,7,13,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-size:13px;color:var(--sky);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);text-decoration:none;padding:.5rem 1rem;border:1px solid var(--border2);border-radius:8px;transition:all .2s}
+.nav-back:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.container{max-width:900px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:1}
+.proj-hero{padding:8rem 0 4rem}
+.proj-breadcrumb{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem}
+.proj-breadcrumb a{color:var(--sky);text-decoration:none}
+.proj-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-2px;line-height:.9;margin-bottom:1.5rem}
+.proj-title span{background:linear-gradient(135deg,var(--emerald),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.proj-tagline{font-size:18px;color:var(--muted);line-height:1.8;max-width:700px;margin-bottom:2.5rem}
+.proj-meta{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+.meta-chip{font-family:var(--mono);font-size:11px;padding:.4rem 1rem;border-radius:100px;border:1px solid}
+.meta-chip.sky{background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.25);color:var(--sky)}
+.meta-chip.emerald{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25);color:var(--emerald)}
+.meta-chip.violet{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.25);color:var(--violet)}
+.proj-hero-img{width:100%;border-radius:20px;border:1px solid var(--border);margin-bottom:5rem;object-fit:cover;height:420px;filter:brightness(.85) saturate(.9)}
+.content-section{padding:3rem 0;border-top:1px solid var(--border)}
+.content-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:8px}
+.content-label::before{content:'';width:16px;height:1px;background:currentColor}
+.content-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.8rem;letter-spacing:-.5px;margin-bottom:1.5rem;color:var(--white)}
+.content-body{font-size:15px;color:var(--muted);line-height:2}
+.content-body strong{color:var(--text)}
+.content-body p{margin-bottom:1rem}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+.feature-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .3s}
+.feature-item:hover{border-color:rgba(255,255,255,.15);transform:translateY(-2px)}
+.feature-icon{font-size:1.8rem;margin-bottom:.8rem;display:block}
+.feature-name{font-family:'Fraunces',serif;font-weight:700;font-size:1rem;color:var(--white);margin-bottom:.5rem}
+.feature-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.tech-grid{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}
+.tech-pill{font-family:var(--mono);font-size:12px;padding:.5rem 1.2rem;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text);transition:all .2s}
+.tech-pill:hover{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25);color:var(--emerald)}
+.challenge-list{display:flex;flex-direction:column;gap:1.5rem;margin:1.5rem 0}
+.challenge-item{display:flex;gap:1.5rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.challenge-num{font-family:'Fraunces',serif;font-weight:700;font-size:1.5rem;color:var(--emerald);flex-shrink:0;width:36px}
+.challenge-title{font-weight:700;color:var(--white);margin-bottom:.4rem}
+.challenge-desc{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+/* MAP PREVIEW */
+.map-preview{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin:2rem 0;position:relative;overflow:hidden}
+.map-header{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:1.5rem;letter-spacing:1px}
+.map-dots{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:1rem}
+.map-dot{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.dot-marker{width:14px;height:14px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px rgba(52,211,153,.5)}
+.dot-label{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:center;letter-spacing:.5px}
+.map-caption{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+.proj-cta{padding:4rem 0 6rem}
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-glow{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:1px;padding:.9rem 2rem;background:linear-gradient(135deg,var(--emerald),var(--sky));color:#000;text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-glow:hover{opacity:.85;transform:translateY(-2px)}
+.btn-ghost{font-family:var(--mono);font-size:13px;letter-spacing:1px;padding:.9rem 2rem;background:transparent;color:var(--text);border:1px solid var(--border2);text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-ghost:hover{border-color:var(--emerald);color:var(--emerald)}
+.btn-back{font-family:var(--mono);font-size:13px;letter-spacing:1px;padding:.9rem 2rem;background:transparent;color:var(--muted);border:1px solid var(--border);text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-back:hover{color:var(--text);border-color:var(--border2)}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+footer a{color:var(--sky);text-decoration:none}
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+@media(max-width:700px){.feature-grid{grid-template-columns:1fr}nav{padding:.7rem 1.5rem}.container{padding:0 1.5rem}}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <a class="nav-logo" href="index.html">← rohit.mudgal</a>
+  <a class="nav-back" href="index.html#projects">All Projects</a>
+</nav>
+
+<div class="container">
+  <div class="proj-hero">
+    <div class="proj-breadcrumb reveal"><a href="index.html">Portfolio</a> / <a href="index.html#projects">Projects</a> / Project 02</div>
+    <h1 class="proj-title reveal reveal-delay-1">MYSW-Camp<br><span>Campground Reviews</span></h1>
+    <p class="proj-tagline reveal reveal-delay-2">Make You See Wonders Camp — a full-stack campground discovery and review platform with interactive maps, user authentication, image uploads, and live deployment on Render.com.</p>
+    <div class="proj-meta reveal reveal-delay-3">
+      <span class="meta-chip emerald">🏕️ Full Stack App</span>
+      <span class="meta-chip sky">🗺️ Mapbox GL</span>
+      <span class="meta-chip violet">Live on Render</span>
+      <span class="meta-chip emerald">2026 – Present</span>
+    </div>
+    <img class="proj-hero-img reveal" src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1200&q=80" alt="MYSW Camp Project">
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Project Overview</div>
+    <div class="content-title">What is MYSW-Camp?</div>
+    <div class="content-body">
+      <p>MYSW-Camp (Make You See Wonders) is a <strong>full-stack campground review platform</strong> inspired by YelpCamp — a classic web development project taken to production quality. Users can discover campgrounds on an interactive map, share their own experiences, write reviews with star ratings, and upload photos.</p>
+      <p>The project focuses on <strong>real-world web development patterns</strong>: MVC architecture with Express.js, database relationships with Mongoose, secure user authentication via Passport.js, and seamless media handling with Cloudinary. It's currently live and deployed on Render.com.</p>
+      <p>Every detail has been considered — from <strong>server-side validation with Joi</strong> and input sanitization against XSS attacks, to graceful error handling with custom error classes and a clean, responsive UI.</p>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Key Features</div>
+    <div class="content-title">What it does</div>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <span class="feature-icon">🗺️</span>
+        <div class="feature-name">Interactive Mapbox Maps</div>
+        <div class="feature-desc">Every campground is geocoded and shown on an interactive Mapbox GL map. Click any marker to see the campground preview popup with a direct link.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔐</span>
+        <div class="feature-name">User Authentication</div>
+        <div class="feature-desc">Passport.js local strategy with session management. Users can register, log in, and their identity is preserved across pages. Protected routes enforce authorisation.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⭐</span>
+        <div class="feature-name">Reviews & Ratings</div>
+        <div class="feature-desc">Authenticated users can leave star ratings and written reviews on any campground. Reviews are tied to users — only the author can delete their own review.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📸</span>
+        <div class="feature-name">Photo Uploads (Cloudinary)</div>
+        <div class="feature-desc">Campground owners can upload multiple images via Multer, which are stored and optimised on Cloudinary's CDN for fast loading globally.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡️</span>
+        <div class="feature-name">Security & Validation</div>
+        <div class="feature-desc">Every form submission is validated server-side with Joi schemas. Mongoose queries are sanitised against NoSQL injection. Helmet.js sets security headers.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🌍</span>
+        <div class="feature-name">Live Deployment</div>
+        <div class="feature-desc">Deployed on Render.com with MongoDB Atlas cloud database. Environment variables secured, production-ready configuration with proper error handling.</div>
+      </div>
+    </div>
+
+    <div class="map-preview reveal">
+      <div class="map-header">// Campground map markers — Mapbox GL integration</div>
+      <div class="map-dots">
+        <div class="map-dot"><div class="dot-marker"></div><div class="dot-label">Shimla</div></div>
+        <div class="map-dot"><div class="dot-marker" style="background:var(--sky);box-shadow:0 0 10px rgba(56,189,248,.5)"></div><div class="dot-label">Manali</div></div>
+        <div class="map-dot"><div class="dot-marker" style="background:var(--violet);box-shadow:0 0 10px rgba(167,139,250,.5)"></div><div class="dot-label">Coorg</div></div>
+        <div class="map-dot"><div class="dot-marker"></div><div class="dot-label">Mussoorie</div></div>
+        <div class="map-dot"><div class="dot-marker" style="background:var(--amber);box-shadow:0 0 10px rgba(251,191,36,.5)"></div><div class="dot-label">Spiti</div></div>
+      </div>
+      <div class="map-caption">Interactive markers with popup previews, geocoding via Mapbox Geocoding API</div>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Technology Stack</div>
+    <div class="content-title">Built with</div>
+    <div class="tech-grid">
+      <span class="tech-pill">Node.js</span><span class="tech-pill">Express.js</span><span class="tech-pill">MongoDB</span>
+      <span class="tech-pill">Mongoose ODM</span><span class="tech-pill">EJS Templates</span><span class="tech-pill">Passport.js</span>
+      <span class="tech-pill">Mapbox GL JS</span><span class="tech-pill">Mapbox Geocoding API</span><span class="tech-pill">Cloudinary</span>
+      <span class="tech-pill">Multer</span><span class="tech-pill">Bootstrap 5</span><span class="tech-pill">Joi Validation</span>
+      <span class="tech-pill">Express Sessions</span><span class="tech-pill">Connect-Mongo</span><span class="tech-pill">Helmet.js</span>
+      <span class="tech-pill">MongoDB Atlas</span><span class="tech-pill">Render.com</span>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Engineering Challenges</div>
+    <div class="content-title">Problems I solved</div>
+    <div class="challenge-list">
+      <div class="challenge-item">
+        <div class="challenge-num">1</div>
+        <div>
+          <div class="challenge-title">Authorisation vs Authentication</div>
+          <div class="challenge-desc">Beyond just logging in, I had to ensure that only the campground owner could edit or delete their listing, and only a review's author could delete their review. This required middleware-based authorisation checks on every relevant route, querying the database to verify ownership before any destructive action.</div>
+        </div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">2</div>
+        <div>
+          <div class="challenge-title">Geocoding & Map Data Pipeline</div>
+          <div class="challenge-desc">Integrating Mapbox Geocoding API to convert text location inputs into latitude/longitude coordinates — then storing and displaying them on an interactive Mapbox GL map — required careful async error handling for failed geocoding and fallback logic for ambiguous location strings.</div>
+        </div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">3</div>
+        <div>
+          <div class="challenge-title">Cascading Delete Logic</div>
+          <div class="challenge-desc">When a campground is deleted, all associated reviews and Cloudinary images must also be deleted. Implementing this with Mongoose middleware (post delete hooks) and the Cloudinary API ensured no orphaned data remained in the database or CDN after a deletion.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-cta reveal">
+    <div class="content-label">Links</div>
+    <div class="content-title" style="margin-bottom:1.5rem">Explore the Project</div>
+    <div class="cta-row">
+      <a class="btn-glow" href="https://mysw-camp.onrender.com" target="_blank">🚀 Live on Render</a>
+      <a class="btn-ghost" href="https://github.com/Mudgal09/MYSW-CAMP" target="_blank">🐙 GitHub Repo</a>
+      <a class="btn-back" href="index.html#projects">← Back to Projects</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 <a href="index.html">Rohit Mudgal</a></span>
+  <span>Project 02 — MYSW-Camp</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

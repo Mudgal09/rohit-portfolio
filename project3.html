@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Price Prediction — Project Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06070d;--surface:#0c0e1a;--card:#111428;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--text:#e8ecf4;--muted:#8892a4;--sky:#38bdf8;--violet:#a78bfa;--pink:#f472b6;--emerald:#34d399;--amber:#fbbf24;--coral:#fb7185;--white:#f8fafc;--mono:'JetBrains Mono',monospace;--body:'Plus Jakarta Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb1{width:600px;height:600px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(167,139,250,.1),transparent 70%)}
+.orb2{width:500px;height:500px;bottom:100px;left:-100px;background:radial-gradient(circle,rgba(251,191,36,.07),transparent 70%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 2.5rem;background:rgba(6,7,13,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-size:13px;color:var(--sky);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);text-decoration:none;padding:.5rem 1rem;border:1px solid var(--border2);border-radius:8px;transition:all .2s}
+.nav-back:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.container{max-width:900px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:1}
+.proj-hero{padding:8rem 0 4rem}
+.proj-breadcrumb{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem}
+.proj-breadcrumb a{color:var(--sky);text-decoration:none}
+.proj-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-2px;line-height:.9;margin-bottom:1.5rem}
+.proj-title span{background:linear-gradient(135deg,var(--violet),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.proj-tagline{font-size:18px;color:var(--muted);line-height:1.8;max-width:700px;margin-bottom:2.5rem}
+.proj-meta{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+.meta-chip{font-family:var(--mono);font-size:11px;padding:.4rem 1rem;border-radius:100px;border:1px solid}
+.meta-chip.violet{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.25);color:var(--violet)}
+.meta-chip.amber{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25);color:var(--amber)}
+.meta-chip.pink{background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.25);color:var(--pink)}
+.content-section{padding:3rem 0;border-top:1px solid var(--border)}
+.content-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:8px}
+.content-label::before{content:'';width:16px;height:1px;background:currentColor}
+.content-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.8rem;letter-spacing:-.5px;margin-bottom:1.5rem;color:var(--white)}
+.content-body{font-size:15px;color:var(--muted);line-height:2}
+.content-body strong{color:var(--text)}
+.content-body p{margin-bottom:1rem}
+
+/* PIPELINE STEPS */
+.pipeline{display:flex;flex-direction:column;gap:0;margin:2rem 0}
+.pipe-step{display:flex;gap:1.5rem;align-items:start;padding:1.5rem 0;border-bottom:1px solid var(--border)}
+.pipe-step:last-child{border-bottom:none}
+.pipe-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.pipe-step:nth-child(1) .pipe-icon{background:rgba(56,189,248,.12)}
+.pipe-step:nth-child(2) .pipe-icon{background:rgba(167,139,250,.12)}
+.pipe-step:nth-child(3) .pipe-icon{background:rgba(244,114,182,.12)}
+.pipe-step:nth-child(4) .pipe-icon{background:rgba(52,211,153,.12)}
+.pipe-step:nth-child(5) .pipe-icon{background:rgba(251,191,36,.12)}
+.pipe-title{font-weight:700;color:var(--white);margin-bottom:.3rem}
+.pipe-desc{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+/* MODEL RESULTS */
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+.model-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;transition:all .3s}
+.model-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.15)}
+.model-card.winner{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.03)}
+.model-winner-tag{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:9px;color:var(--emerald);padding:.2rem .6rem;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);border-radius:100px}
+.model-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;color:var(--white);margin-bottom:1rem}
+.model-score{font-family:'Fraunces',serif;font-weight:700;font-size:2.5rem;line-height:1;margin-bottom:.3rem}
+.model-card:nth-child(1) .model-score{background:linear-gradient(135deg,var(--sky),var(--emerald));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.model-card:nth-child(2) .model-score{background:linear-gradient(135deg,var(--violet),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.model-card:nth-child(3) .model-score{background:linear-gradient(135deg,var(--emerald),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.model-card:nth-child(4) .model-score{background:linear-gradient(135deg,var(--amber),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.model-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:.5rem}
+.model-bar-track{width:100%;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.8rem}
+.model-bar-fill{height:100%;border-radius:2px}
+.mc1 .model-bar-fill{width:92%;background:linear-gradient(to right,var(--sky),var(--emerald))}
+.mc2 .model-bar-fill{width:87%;background:linear-gradient(to right,var(--violet),var(--pink))}
+.mc3 .model-bar-fill{width:95%;background:linear-gradient(to right,var(--emerald),var(--amber))}
+.mc4 .model-bar-fill{width:78%;background:linear-gradient(to right,var(--amber),var(--coral))}
+
+.tech-grid{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.5rem 0}
+.tech-pill{font-family:var(--mono);font-size:12px;padding:.5rem 1.2rem;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text);transition:all .2s}
+.tech-pill:hover{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.25);color:var(--violet)}
+
+/* CODE SNIPPET */
+.code-block{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.code-header{background:rgba(255,255,255,.03);padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border)}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-dot:nth-child(1){background:#ff5f57}
+.code-dot:nth-child(2){background:#ffbd2e}
+.code-dot:nth-child(3){background:#28c940}
+.code-filename{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:.5rem}
+pre{padding:1.5rem;font-family:var(--mono);font-size:12.5px;line-height:1.9;overflow-x:auto;color:var(--muted)}
+.kw{color:var(--violet)}.fn{color:var(--sky)}.st{color:var(--amber)}.cm{color:#4a5568;font-style:italic}.nu{color:var(--emerald)}
+
+.proj-cta{padding:4rem 0 6rem}
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-glow{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:1px;padding:.9rem 2rem;background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff;text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-glow:hover{opacity:.85;transform:translateY(-2px)}
+.btn-ghost{font-family:var(--mono);font-size:13px;letter-spacing:1px;padding:.9rem 2rem;background:transparent;color:var(--text);border:1px solid var(--border2);text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+.btn-back{font-family:var(--mono);font-size:13px;letter-spacing:1px;padding:.9rem 2rem;background:transparent;color:var(--muted);border:1px solid var(--border);text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-back:hover{color:var(--text)}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+footer a{color:var(--sky);text-decoration:none}
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+@media(max-width:700px){.model-grid{grid-template-columns:1fr}nav{padding:.7rem 1.5rem}.container{padding:0 1.5rem}}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <a class="nav-logo" href="index.html">← rohit.mudgal</a>
+  <a class="nav-back" href="index.html#projects">All Projects</a>
+</nav>
+
+<div class="container">
+  <div class="proj-hero">
+    <div class="proj-breadcrumb reveal"><a href="index.html">Portfolio</a> / <a href="index.html#projects">Projects</a> / Project 03</div>
+    <h1 class="proj-title reveal reveal-delay-1">House Price<br><span>Prediction Model</span></h1>
+    <p class="proj-tagline reveal reveal-delay-2">A complete machine learning pipeline for predicting residential property prices — from raw data through EDA, feature engineering, model training, and performance benchmarking across four regression algorithms.</p>
+    <div class="proj-meta reveal reveal-delay-3">
+      <span class="meta-chip violet">📊 Machine Learning</span>
+      <span class="meta-chip amber">🐍 Python</span>
+      <span class="meta-chip pink">2025</span>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Project Overview</div>
+    <div class="content-title">What is this project?</div>
+    <div class="content-body">
+      <p>This project is a <strong>complete end-to-end machine learning workflow</strong> built in Python — from raw, messy data through to trained, evaluated regression models. It's designed to predict house prices based on multiple features like area, bedrooms, location score, and age of the property.</p>
+      <p>Rather than jumping straight to model training, I emphasised the <strong>data science process</strong>: understanding the data deeply through EDA, making informed preprocessing decisions, engineering meaningful features, and then systematically comparing model performance using proper train/test splits and cross-validation.</p>
+      <p>The final model — <strong>Random Forest Regression at 95% R² score</strong> — was selected based on performance metrics including R², RMSE, and MAE, with Matplotlib/Seaborn visualisations used throughout to surface insights from the data.</p>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">ML Pipeline</div>
+    <div class="content-title">Step-by-step process</div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-icon">🔍</div>
+        <div>
+          <div class="pipe-title">1. Exploratory Data Analysis (EDA)</div>
+          <div class="pipe-desc">Deep dive into the dataset: understanding distributions, identifying outliers, visualising correlations with heatmaps, and spotting patterns between features and the target variable (price).</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🧹</div>
+        <div>
+          <div class="pipe-title">2. Data Cleaning</div>
+          <div class="pipe-desc">Handling missing values with median/mode imputation, removing duplicate records, correcting data type mismatches, and filtering outliers using IQR-based bounds.</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">⚙️</div>
+        <div>
+          <div class="pipe-title">3. Feature Engineering</div>
+          <div class="pipe-desc">Creating new derived features (price per sq ft, property age categories), encoding categorical variables with label encoding and one-hot encoding, and scaling numerical features for linear models.</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🧠</div>
+        <div>
+          <div class="pipe-title">4. Model Training</div>
+          <div class="pipe-desc">Training four regression algorithms on the same 80/20 train-test split: Linear Regression, Ridge Regression, Random Forest, and Lasso Regression. Hyperparameters tuned with GridSearchCV.</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">📊</div>
+        <div>
+          <div class="pipe-title">5. Evaluation & Visualisation</div>
+          <div class="pipe-desc">Comparing models using R², RMSE, and MAE metrics. Visualising actual vs predicted plots, residual distributions, and feature importance rankings using Matplotlib and Seaborn.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Model Performance</div>
+    <div class="content-title">Results comparison</div>
+    <div class="model-grid">
+      <div class="model-card mc1">
+        <div class="model-label">R² Score</div>
+        <div class="model-score">92%</div>
+        <div class="model-name">Linear Regression</div>
+        <div class="model-bar-track"><div class="model-bar-fill"></div></div>
+      </div>
+      <div class="model-card mc2">
+        <div class="model-label">R² Score</div>
+        <div class="model-score">87%</div>
+        <div class="model-name">Ridge Regression</div>
+        <div class="model-bar-track"><div class="model-bar-fill"></div></div>
+      </div>
+      <div class="model-card mc3 winner">
+        <div class="model-winner-tag">★ Best</div>
+        <div class="model-label">R² Score</div>
+        <div class="model-score">95%</div>
+        <div class="model-name">Random Forest</div>
+        <div class="model-bar-track"><div class="model-bar-fill"></div></div>
+      </div>
+      <div class="model-card mc4">
+        <div class="model-label">R² Score</div>
+        <div class="model-score">78%</div>
+        <div class="model-name">Lasso Regression</div>
+        <div class="model-bar-track"><div class="model-bar-fill"></div></div>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--muted)">Random Forest performed best at 95% R² due to its ability to capture non-linear relationships between features without assuming linearity — an important property for house price data where relationships are complex and interactive.</p>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Sample Code</div>
+    <div class="content-title">Key implementation</div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+        <span class="code-filename">model_training.py</span>
+      </div>
+<pre><span class="cm"># Model comparison pipeline</span>
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestRegressor
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression, Ridge, Lasso
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> r2_score, mean_squared_error
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+
+<span class="cm"># Train/test split</span>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="nu">0.2</span>, random_state=<span class="nu">42</span>
+)
+
+<span class="cm"># Evaluate multiple models</span>
+models = {
+    <span class="st">'Linear Regression'</span>: <span class="fn">LinearRegression</span>(),
+    <span class="st">'Ridge'</span>: <span class="fn">Ridge</span>(alpha=<span class="nu">1.0</span>),
+    <span class="st">'Lasso'</span>: <span class="fn">Lasso</span>(alpha=<span class="nu">0.1</span>),
+    <span class="st">'Random Forest'</span>: <span class="fn">RandomForestRegressor</span>(n_estimators=<span class="nu">100</span>)
+}
+
+<span class="kw">for</span> name, model <span class="kw">in</span> models.items():
+    model.<span class="fn">fit</span>(X_train, y_train)
+    preds = model.<span class="fn">predict</span>(X_test)
+    r2 = <span class="fn">r2_score</span>(y_test, preds)
+    <span class="fn">print</span>(<span class="st">f"{name}: R² = {r2:.4f}"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="content-section reveal">
+    <div class="content-label">Technology Stack</div>
+    <div class="content-title">Libraries used</div>
+    <div class="tech-grid">
+      <span class="tech-pill">Python 3.x</span><span class="tech-pill">Pandas</span><span class="tech-pill">NumPy</span>
+      <span class="tech-pill">Scikit-learn</span><span class="tech-pill">Matplotlib</span><span class="tech-pill">Seaborn</span>
+      <span class="tech-pill">Jupyter Notebook</span><span class="tech-pill">GridSearchCV</span><span class="tech-pill">StandardScaler</span>
+      <span class="tech-pill">LabelEncoder</span><span class="tech-pill">train_test_split</span>
+    </div>
+  </div>
+
+  <div class="proj-cta reveal">
+    <div class="content-label">Links</div>
+    <div class="content-title" style="margin-bottom:1.5rem">Explore the Project</div>
+    <div class="cta-row">
+      <a class="btn-glow" href="https://github.com/Mudgal09" target="_blank">🐙 GitHub Repo</a>
+      <a class="btn-back" href="index.html#projects">← Back to Projects</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 <a href="index.html">Rohit Mudgal</a></span>
+  <span>Project 03 — House Price Prediction</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

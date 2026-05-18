@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hire Rohit Mudgal — Let's Work Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06070d;--surface:#0c0e1a;--card:#111428;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--text:#e8ecf4;--muted:#8892a4;--sky:#38bdf8;--violet:#a78bfa;--pink:#f472b6;--emerald:#34d399;--amber:#fbbf24;--coral:#fb7185;--white:#f8fafc;--mono:'JetBrains Mono',monospace;--body:'Plus Jakarta Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb1{width:700px;height:700px;top:-200px;right:-200px;background:radial-gradient(circle,rgba(167,139,250,.12),transparent 70%)}
+.orb2{width:500px;height:500px;bottom:0;left:-200px;background:radial-gradient(circle,rgba(56,189,248,.1),transparent 70%)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 2.5rem;background:rgba(6,7,13,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-size:13px;color:var(--sky);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.5rem 1rem;border:1px solid var(--border2);border-radius:8px;transition:all .2s}
+.nav-back:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+
+/* HERO */
+.hire-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 2.5rem 5rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hire-eyebrow{font-family:var(--mono);font-size:12px;color:var(--emerald);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+.avail-dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.4)}50%{box-shadow:0 0 0 8px rgba(52,211,153,0)}}
+.hire-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(3.5rem,8vw,7rem);line-height:.88;letter-spacing:-3px;margin-bottom:2rem}
+.hire-title .line1{display:block;color:var(--white)}
+.hire-title .line2{display:block;background:linear-gradient(135deg,var(--sky),var(--violet),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hire-intro{font-size:18px;color:var(--muted);line-height:1.9;max-width:600px;margin-bottom:3rem}
+.hire-intro strong{color:var(--text)}
+
+/* STATUS CARDS */
+.status-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.status-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;font-family:var(--mono);font-size:12px}
+.status-card.on{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.05)}
+.status-label{color:var(--muted);margin-bottom:.3rem;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.status-val{color:var(--emerald);font-weight:600}
+.status-card.sk .status-val{color:var(--sky)}
+.status-card.vi .status-val{color:var(--violet)}
+
+/* WHAT I OFFER */
+.section{max-width:1200px;margin:0 auto;padding:5rem 2.5rem;position:relative;z-index:1}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:4px;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:24px;height:1px;background:currentColor}
+.section-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);letter-spacing:-1.5px;margin-bottom:3rem}
+.section-title span{background:linear-gradient(135deg,var(--sky),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:all .3s}
+.service-card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.15)}
+.service-glow{position:absolute;top:0;left:0;right:0;height:2px}
+.service-card:nth-child(1) .service-glow{background:linear-gradient(135deg,var(--sky),var(--violet))}
+.service-card:nth-child(2) .service-glow{background:linear-gradient(135deg,var(--violet),var(--pink))}
+.service-card:nth-child(3) .service-glow{background:linear-gradient(135deg,var(--pink),var(--coral))}
+.service-card:nth-child(4) .service-glow{background:linear-gradient(135deg,var(--emerald),var(--sky))}
+.service-card:nth-child(5) .service-glow{background:linear-gradient(135deg,var(--amber),var(--coral))}
+.service-card:nth-child(6) .service-glow{background:linear-gradient(135deg,var(--coral),var(--pink))}
+.service-icon{font-size:2.5rem;margin-bottom:1.2rem;display:block}
+.service-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem;color:var(--white);margin-bottom:.8rem}
+.service-desc{font-size:13.5px;color:var(--muted);line-height:1.8}
+.service-price{font-family:var(--mono);font-size:11px;color:var(--emerald);margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+/* PROCESS */
+.process-list{display:flex;flex-direction:column;gap:0}
+.process-item{display:grid;grid-template-columns:80px 1fr;gap:2rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--border)}
+.process-item:last-child{border-bottom:none}
+.process-num{font-family:'Fraunces',serif;font-weight:700;font-size:3rem;line-height:1;background:linear-gradient(135deg,var(--sky),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.process-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;color:var(--white);margin-bottom:.5rem}
+.process-desc{font-size:14.5px;color:var(--muted);line-height:1.8}
+
+/* AVAILABILITY CALENDAR */
+.cal-wrapper{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:600px}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.cal-month{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;color:var(--white)}
+.cal-nav{display:flex;gap:.5rem}
+.cal-btn{background:var(--border);border:1px solid var(--border2);color:var(--text);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:var(--mono)}
+.cal-btn:hover{background:rgba(167,139,250,.15);border-color:var(--violet);color:var(--violet)}
+.cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;margin-bottom:.5rem}
+.cal-day-name{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;letter-spacing:1px;padding:.3rem}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem}
+.cal-day{font-family:var(--mono);font-size:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:default;transition:all .2s;color:var(--muted)}
+.cal-day.empty{background:transparent}
+.cal-day.available{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);color:var(--emerald);cursor:pointer}
+.cal-day.available:hover{background:rgba(52,211,153,.2)}
+.cal-day.busy{background:rgba(251,113,133,.07);border:1px solid rgba(251,113,133,.15);color:rgba(251,113,133,.5)}
+.cal-day.today{border:1px solid var(--violet);color:var(--violet)}
+.cal-legend{display:flex;gap:1.5rem;margin-top:1.2rem}
+.cal-legend-item{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+.legend-dot.a{background:rgba(52,211,153,.3)}
+.legend-dot.b{background:rgba(251,113,133,.2)}
+
+/* CTA SECTION */
+.hire-cta{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1}
+.hire-cta-inner{max-width:1200px;margin:0 auto;padding:6rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.cta-text h2{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-1.5px;line-height:1;margin-bottom:1.5rem}
+.cta-text p{color:var(--muted);line-height:1.9;margin-bottom:2rem}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-glow{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:1px;padding:.9rem 2rem;background:linear-gradient(135deg,var(--sky),var(--violet));color:#fff;border:none;cursor:pointer;text-decoration:none;border-radius:100px;transition:all .3s;box-shadow:0 0 30px rgba(56,189,248,.25)}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(56,189,248,.4)}
+.btn-ghost{font-family:var(--mono);font-size:13px;letter-spacing:1px;padding:.9rem 2rem;background:transparent;color:var(--text);border:1px solid var(--border2);cursor:pointer;text-decoration:none;border-radius:100px;transition:all .3s}
+.btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+
+.quick-facts{display:flex;flex-direction:column;gap:1rem}
+.fact-row{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px}
+.fact-icon{font-size:1.4rem;flex-shrink:0}
+.fact-text{font-size:14px;color:var(--muted)}
+.fact-text strong{color:var(--text)}
+
+footer{background:var(--bg);border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+footer a{color:var(--sky);text-decoration:none}
+
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+@media(max-width:900px){
+  .services-grid{grid-template-columns:1fr}
+  .hire-cta-inner{grid-template-columns:1fr}
+  nav{padding:.7rem 1.5rem}
+  .section{padding:4rem 1.5rem}
+  .hire-hero{padding:7rem 1.5rem 4rem}
+}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <a class="nav-logo" href="index.html">← rohit.mudgal</a>
+  <a class="nav-back" href="index.html">Back to Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<div class="hire-hero">
+  <div class="hire-eyebrow">
+    <div class="avail-dot"></div>
+    Currently Available for Hire
+  </div>
+  <h1 class="hire-title">
+    <span class="line1">Let's Build</span>
+    <span class="line2">Together</span>
+  </h1>
+  <p class="hire-intro">I'm a <strong>Full Stack Developer & ML Enthusiast</strong> who loves turning ideas into production-grade software. Whether it's a complex eCommerce platform, an intelligent chatbot, or a data pipeline — I bring <strong>quality, speed, and clear communication</strong> to every project.</p>
+  <div class="status-row">
+    <div class="status-card on">
+      <div class="status-label">Current Status</div>
+      <div class="status-val">● Open to Work</div>
+    </div>
+    <div class="status-card sk">
+      <div class="status-label">Response Time</div>
+      <div class="status-val">Within 24 hrs</div>
+    </div>
+    <div class="status-card vi">
+      <div class="status-label">Preferred Roles</div>
+      <div class="status-val">Full-Time / Internship / Freelance</div>
+    </div>
+    <div class="status-card sk">
+      <div class="status-label">Location</div>
+      <div class="status-val">Haryana, India (Remote OK)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <div class="section-label reveal">What I Can Build For You</div>
+  <h2 class="section-title reveal reveal-delay-1">My <span>Services</span></h2>
+  <div class="services-grid">
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-glow"></div>
+      <span class="service-icon">🛒</span>
+      <div class="service-name">Full Stack Web Apps</div>
+      <div class="service-desc">End-to-end web applications using Node.js, Express, MongoDB, and React.js. From API design to responsive frontend.</div>
+      <div class="service-price">✓ REST APIs · MVC Architecture · Auth Systems</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-glow"></div>
+      <span class="service-icon">🤖</span>
+      <div class="service-name">AI-Powered Features</div>
+      <div class="service-desc">Integrate Gemini AI, build intelligent chatbots, recommendation systems, and smart search into your applications.</div>
+      <div class="service-price">✓ Gemini API · RAG · Chatbots · NLP</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-glow"></div>
+      <span class="service-icon">📊</span>
+      <div class="service-name">ML & Data Analysis</div>
+      <div class="service-desc">Data pipelines, predictive models, EDA, and visualisation using Python's ML stack. Turn your data into insights.</div>
+      <div class="service-price">✓ Scikit-learn · Pandas · Matplotlib · Regression</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-glow"></div>
+      <span class="service-icon">💳</span>
+      <div class="service-name">eCommerce Solutions</div>
+      <div class="service-desc">Complete online stores with Razorpay payments (UPI, Cards, COD), order tracking, admin dashboards, and inventory management.</div>
+      <div class="service-price">✓ Razorpay · Cart Systems · Order Mgmt</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-glow"></div>
+      <span class="service-icon">🔐</span>
+      <div class="service-name">Secure Backends</div>
+      <div class="service-desc">Security-first backend development with Passport.js auth, PBKDF2 hashing, Helmet.js, Joi validation, and CSRF protection.</div>
+      <div class="service-price">✓ OAuth · Session Mgmt · Input Sanitization</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-glow"></div>
+      <span class="service-icon">🗺️</span>
+      <div class="service-name">Interactive Maps & Media</div>
+      <div class="service-desc">Mapbox GL integrations for location-based apps, plus Cloudinary media management for image-heavy platforms.</div>
+      <div class="service-price">✓ Mapbox GL · Cloudinary · Multer · CDN</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);max-width:100%;padding:5rem 0">
+  <div style="max-width:1200px;margin:0 auto;padding:0 2.5rem">
+    <div class="section-label reveal">How I Work</div>
+    <h2 class="section-title reveal reveal-delay-1">My <span>Process</span></h2>
+    <div class="process-list">
+      <div class="process-item reveal reveal-delay-1">
+        <div class="process-num">01</div>
+        <div>
+          <div class="process-title">Discovery & Requirements</div>
+          <div class="process-desc">I start with a detailed conversation to understand your goals, target audience, technical constraints, and timeline. The clearer the brief, the better the outcome. I ask the right questions so nothing gets lost in translation.</div>
+        </div>
+      </div>
+      <div class="process-item reveal reveal-delay-2">
+        <div class="process-num">02</div>
+        <div>
+          <div class="process-title">Planning & Architecture</div>
+          <div class="process-desc">Before writing a single line of code, I plan the data models, API structure, and component hierarchy. Good architecture saves weeks of refactoring later. I share a detailed plan for your review and sign-off.</div>
+        </div>
+      </div>
+      <div class="process-item reveal reveal-delay-3">
+        <div class="process-num">03</div>
+        <div>
+          <div class="process-title">Build & Iterate</div>
+          <div class="process-desc">I develop in sprints with regular check-ins so you always know what's happening. No surprise deadline crunches. I follow clean code principles, write readable code, and document as I go.</div>
+        </div>
+      </div>
+      <div class="process-item reveal">
+        <div class="process-num">04</div>
+        <div>
+          <div class="process-title">Testing & Delivery</div>
+          <div class="process-desc">Thorough testing before delivery, then deployment and handover. I ensure the codebase is well-documented, environments are configured correctly, and you're confident taking ownership of what we built together.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AVAILABILITY + CTA -->
+<div class="hire-cta">
+  <div class="hire-cta-inner">
+    <div class="cta-text reveal">
+      <h2>Ready to <span style="background:linear-gradient(135deg,var(--sky),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Work Together?</span></h2>
+      <p>I'm available for full-time positions, internships, and freelance contracts. If you have a project in mind, an opening at your company, or just want to have a chat — I'd love to hear from you.</p>
+      <div class="cta-btns">
+        <a class="btn-glow" href="mailto:rohitmudgal.0903@gmail.com">✉️ rohitmudgal.0903@gmail.com</a>
+        <a class="btn-ghost" href="contact.html">📋 Send Detailed Brief</a>
+      </div>
+      <p style="margin-top:1.5rem;font-family:var(--mono);font-size:12px;color:var(--muted)">📞 9671914842 &nbsp;·&nbsp; 💼 <a href="https://www.linkedin.com/in/rohitmudgal-6a0692345" target="_blank" style="color:var(--sky);text-decoration:none">LinkedIn</a> &nbsp;·&nbsp; 🐙 <a href="https://github.com/Mudgal09" target="_blank" style="color:var(--sky);text-decoration:none">GitHub</a></p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="quick-facts">
+        <div class="fact-row">
+          <span class="fact-icon">⏱️</span>
+          <div class="fact-text"><strong>Fast Turnaround</strong> — MVPs in 2–4 weeks, depending on complexity</div>
+        </div>
+        <div class="fact-row">
+          <span class="fact-icon">💬</span>
+          <div class="fact-text"><strong>Clear Communication</strong> — Daily/weekly updates, no ghosting</div>
+        </div>
+        <div class="fact-row">
+          <span class="fact-icon">🔄</span>
+          <div class="fact-text"><strong>Revisions Included</strong> — I iterate until you're happy</div>
+        </div>
+        <div class="fact-row">
+          <span class="fact-icon">🌐</span>
+          <div class="fact-text"><strong>Remote Friendly</strong> — IST timezone, flexible hours</div>
+        </div>
+        <div class="fact-row">
+          <span class="fact-icon">📦</span>
+          <div class="fact-text"><strong>Full Handover</strong> — Clean code, docs, and deployment help</div>
+        </div>
+        <div class="fact-row">
+          <span class="fact-icon">🔒</span>
+          <div class="fact-text"><strong>Security First</strong> — All apps built with security best practices</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 <a href="index.html">Rohit Mudgal</a> — Let's build something great</span>
+  <span>Software Developer · ML Enthusiast</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
